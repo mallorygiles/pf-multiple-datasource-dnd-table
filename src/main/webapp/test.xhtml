@@ -1,16 +1,77 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html">
 
-    <h:head>   
-        <title>PrimeFaces Test</title>
-    </h:head>
-    <h:body>
-        
-        <h1>#{testView.testString}</h1>
-        
-    </h:body>
+<h:head>
+    <title>PrimeFaces Test</title>
+</h:head>
+<h:body>
+    <h:form>
+
+        <p:dataTable id="allTbl" value="#{testView.availableStrings}" var="str">
+            <f:facet name="header">
+                All Available
+            </f:facet>
+            <p:column>
+                <h:outputText value="#{str}"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:panel id="pnl1" header="Table 1">
+            <p:dataTable id="tbl1" value="#{testView.tbl1Strings}" var="str">
+                <p:column style="width:20px">
+                    <h:outputText id="tbl1Drag" styleClass="ui-icon ui-icon-arrow-4"/>
+                    <p:draggable for="tbl1Drag" revert="true" helper="clone"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{str}"/>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+        <p:droppable for="pnl1" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="tbl2">
+            <p:ajax listener="#{testView.onTbl1Drop}" update="tbl1, tbl2, allTbl"/>
+        </p:droppable>
+        <p:droppable for="pnl1" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="tbl3">
+            <p:ajax listener="#{testView.onTbl1Drop}" update="tbl1, tbl3, allTbl"/>
+        </p:droppable>
+
+        <p:panel id="pnl2" header="Table 2">
+            <p:dataTable id="tbl2" value="#{testView.tbl2Strings}" var="str">
+                <p:column style="width:20px">
+                    <h:outputText id="tbl2Drag" styleClass="ui-icon ui-icon-arrow-4"/>
+                    <p:draggable for="tbl2Drag" revert="true" helper="clone"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{str}"/>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+        <p:droppable for="pnl2" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="tbl1">
+            <p:ajax listener="#{testView.onTbl2Drop}" update="tbl1, tbl2, allTbl"/>
+        </p:droppable>
+        <p:droppable for="pnl2" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="tbl3">
+            <p:ajax listener="#{testView.onTbl2Drop}" update="tbl2, tbl3, allTbl"/>
+        </p:droppable>
+
+        <p:panel id="pnl3" header="Table 3">
+            <p:dataTable id="tbl3" value="#{testView.tbl3Strings}" var="str">
+                <p:column style="width:20px">
+                    <h:outputText id="tbl3Drag" styleClass="ui-icon ui-icon-arrow-4"/>
+                    <p:draggable for="tbl3Drag" revert="true" helper="clone"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{str}"/>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+        <p:droppable for="pnl3" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="tbl1">
+            <p:ajax listener="#{testView.onTbl3Drop}" update="tbl1, tbl3, allTbl"/>
+        </p:droppable>
+        <p:droppable for="pnl3" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="tbl2">
+            <p:ajax listener="#{testView.onTbl3Drop}" update="tbl2, tbl3, allTbl"/>
+        </p:droppable>
+    </h:form>
+</h:body>
 </html>
